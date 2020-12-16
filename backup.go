@@ -53,7 +53,7 @@ func (revs *Revisions) createUniqRevisions() *Revisions {
 	path2Revision := make(map[string]Revision)
 	for _, rev := range *revs {
 		if prevRev, ok := path2Revision[rev.Path]; ok {
-			if prevRev.CreatedAt.Date.After(rev.CreatedAt.Date) {
+			if prevRev.CreatedAt.Date.Before(rev.CreatedAt.Date) {
 				path2Revision[rev.Path] = rev
 			}
 			continue
