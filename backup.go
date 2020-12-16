@@ -14,14 +14,20 @@ import (
 
 // Revision is growy entry struct
 type Revision struct {
-	ID            string    `json:"_id"`
-	Format        string    `json:"format"`
-	CreatedAt     time.Time `json:"createdAt"`
-	Path          string    `json:"path"`
-	Body          string    `json:"body"`
-	Author        string    `json:"author"`
-	HasDiffToPrev bool      `json:"hasDiffToPrev"`
-	V             int       `json:"__v"`
+	ID struct {
+		Oid string `json:"$oid"`
+	} `json:"_id"`
+	Format    string `json:"format"`
+	CreatedAt struct {
+		Date time.Time `json:"$date"`
+	} `json:"createdAt"`
+	Path   string `json:"path"`
+	Body   string `json:"body"`
+	Author struct {
+		Oid string `json:"$oid"`
+	} `json:"author"`
+	HasDiffToPrev bool `json:"hasDiffToPrev"`
+	V             int  `json:"__v"`
 }
 
 // Revisions is as equal as revision.json
@@ -47,7 +53,7 @@ func (revs *Revisions) createUniqRevisions() *Revisions {
 	path2Revision := make(map[string]Revision)
 	for _, rev := range *revs {
 		if prevRev, ok := path2Revision[rev.Path]; ok {
-			if prevRev.CreatedAt.After(rev.CreatedAt) {
+			if prevRev.CreatedAt.Date.After(rev.CreatedAt.Date) {
 				path2Revision[rev.Path] = rev
 			}
 			continue
