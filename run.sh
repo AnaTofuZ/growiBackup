@@ -1,6 +1,6 @@
 DAY=`date "+%Y-%m-%d"`
 REVJSON=revision_back_${DAY}.json
-cd /home/ie-user/backup
+cd $HOME/backup
 docker exec growi_mongo_1 mongoexport -d growi -c revisions --pretty --jsonArray --out ${REVJSON}
 docker cp growi_mongo_1:${REVJSON} .
 docker exec growi_mongo_1 rm ${REVJSON}
